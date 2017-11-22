@@ -1,0 +1,46 @@
+<h1>Logs</h1>
+<p class="lead">These are all the logs that matched a mapping</p>
+
+<form>
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Enter something to filter the logs table" ng-model="filtertext">
+  </div>
+</form>
+		<table class="table table-sm table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id</th>
+					<th>Protocol</th>
+					<th>Method</th>
+					<th>Request path</th>
+					<th>Mapping</th>
+					<th>Status Code</th>
+					<th>Remote Address</th>
+					<th>Time</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="cursor: pointer" ng-repeat-start="log in logs | filter:filtertext"
+					ng-init="log.showdetails=false"
+					ng-click="log.showdetails=!log.showdetails">
+					<td>{{log.id}}</td>
+					<td>{{log.protocol}}</td>
+					<td>{{log.requestMethod}}</td>
+					<td>{{log.requestPath}}</td>
+					<td>{{log.mapping}}</td>
+					<td>{{log.statusCode}}</td>
+					<td>{{log.remoteAddress}}</td>
+					<td>{{log.timeStamp | date:'yyyy-MM-dd HH:mm:ss'}}</td>
+				</tr>
+				<tr ng-repeat-end ng-show="log.showdetails">
+					<td colspan="8">
+						<div
+							style="float: left; white-space: pre-wrap; max-height: 50vh; width:50%; overflow:auto"><b>Request Headers:</b><br />{{log.requestHeaders}}<br /><br /><b>Request body:</b><br />{{log.requestBody}}
+						</div>
+						<div
+							style="float: left; white-space: pre-wrap; max-height: 50vh; width:50%; overflow:auto"><b>Response Headers:</b><br />{{log.responseHeaders}}<br /><br /><b>Response body:</b><br />{{log.responseBody}}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>

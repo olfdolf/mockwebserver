@@ -30,7 +30,7 @@ public class UserDefinedResponseRepository {
 	}
 
 	public Collection<UserDefinedResponse> getAll() throws SQLException {
-		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM user_defined_response;").executeQuery();
+		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM user_defined_response ORDEr BY id DESC;").executeQuery();
 		Collection<UserDefinedResponse> allUserDefinedResponses = new ArrayList<>();
 		
 		while (resultSet.next()) {
@@ -44,7 +44,40 @@ public class UserDefinedResponseRepository {
 
 		return allUserDefinedResponses;
 	}
+	
+	public UserDefinedResponse get(int id) throws SQLException {
+		 PreparedStatement selectStatement = dbConnection.prepareStatement("SELECT * FROM user_defined_response where id = ? LIMIT 1;");
+		 selectStatement.setInt(1, id);
+		 ResultSet resultSet = selectStatement.executeQuery();
+		
+		UserDefinedResponse userDefinedResponseFromDb = null;
+		
+		if (resultSet.next())
+			userDefinedResponseFromDb = new UserDefinedResponse(resultSet.getInt("id"),resultSet.getInt("status_code"),
+					resultSet.getBytes("response_body"), resultSet.getString("mapping"),
+					resultSet.getString("content_type"));
+		
+		return userDefinedResponseFromDb;
+	}
 
+	public boolean update(UserDefinedResponse userDefinedResponse) {
+		try {
+			PreparedStatement updateStatement = dbConnection.prepareStatement(
+					"UPDATE user_defined_response SET (status_code, response_body, mapping, content_type) = (?,?,?,?) where id = ?");
+			
+			updateStatement.setInt(1, userDefinedResponse.getStatusCode());
+			updateStatement.setBytes(2, userDefinedResponse.getResponseBody());
+			updateStatement.setString(3, userDefinedResponse.getMapping());
+			updateStatement.setString(4, userDefinedResponse.getContentType());
+			updateStatement.setInt(5, userDefinedResponse.getId());
+			
+			return updateStatement.executeUpdate() > 0;
+			
+		} catch (SQLException e) {
+			return false;
+		}
+	}
+	
 	public boolean add(UserDefinedResponse userDefinedResponse) {
 		try {
 		PreparedStatement insertStatement = dbConnection.prepareStatement(

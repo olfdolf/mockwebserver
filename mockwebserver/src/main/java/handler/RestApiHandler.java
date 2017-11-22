@@ -31,26 +31,40 @@ public class RestApiHandler implements Handler {
 	@Override
 	public void handle(HttpExchange exchange, String mapping) throws Exception {
 		
-		if (mapping.equals("/list/userdefinedresponse")) {
+		if (mapping.equals("/list/mappings")) {
 			replyWithJson(exchange, userDefinedResponseRepository.getAll());
 			return;
 		}
-		if (mapping.equals("/list/log")) {
+		if (mapping.equals("/list/logs")) {
 			replyWithJson(exchange, logRepository.getAll());
 			return;
 		}
-		if (mapping.equals("/remove/\\d+")) {
+		if (mapping.equals("/get/mapping/\\d+")) {
+			String requestedPath = exchange.getRequestURI().toString();
+			int id = Integer.parseInt(requestedPath.substring(requestedPath.lastIndexOf('/')+1));	
+			replyWithJson(exchange, userDefinedResponseRepository.get(id));
+			return;
+		}
+		if (mapping.equals("/remove/mapping/\\d+")) {
 			String requestedPath = exchange.getRequestURI().toString();
 			int idToRemove = Integer.parseInt(requestedPath.substring(requestedPath.lastIndexOf('/')+1));			
 			replyWithJson(exchange, userDefinedResponseRepository.remove(idToRemove));
 			return;
 		}
-		if (mapping.equals("/test")) {
+		if (mapping.equals("/edit/mapping")) {
+			ObjectMapper objectMapper = new ObjectMapper();
+			UserDefinedResponse ob = objectMapper.readValue(exchange.getRequestBody(),UserDefinedResponse.class);		
+			replyWithJson(exchange, userDefinedResponseRepository.update(ob));
+			return;
+		}
+		if (mapping.equals("/add/mapping")) {
 			ObjectMapper objectMapper = new ObjectMapper();
 			UserDefinedResponse ob = objectMapper.readValue(exchange.getRequestBody(),UserDefinedResponse.class);
 			replyWithJson(exchange, userDefinedResponseRepository.add(ob));
 			return;
 		}
+		
+		
 	}
 
 	public void replyWithJson(HttpExchange exchange, Object object) throws IOException {
@@ -69,12 +83,12 @@ public class RestApiHandler implements Handler {
 	
 	private class RestApiHandlerMappings extends Mappings{
 		public RestApiHandlerMappings() {
-			add("/list/userdefinedresponse");
-			add("/list/log");
-			add("/remove/\\d+");
-			add("/test");
-			
-			
+			add("/list/mappings");
+			add("/list/logs");
+			add("/remove/mapping/\\d+");
+			add("/add/mapping");	
+			add("/get/mapping/\\d+");
+			add("/edit/mapping");
 		}
 	}
 }

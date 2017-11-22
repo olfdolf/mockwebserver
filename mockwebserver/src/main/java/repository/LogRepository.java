@@ -17,7 +17,7 @@ public class LogRepository {
 	}
 
 	public Collection<LogEntry> getAll() throws SQLException {
-		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM restmock;").executeQuery();
+		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM restmock ORDER BY id DESC;").executeQuery();
 		Collection<LogEntry> allLogs = new ArrayList<>();
 		
 		while (resultSet.next()) {
@@ -62,6 +62,7 @@ public class LogRepository {
 
 			return (insertStatement.executeUpdate() > 0);
 		} catch (SQLException e) {
+			e.printStackTrace();
 			return false;
 		}
 	}

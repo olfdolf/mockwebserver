@@ -1,0 +1,38 @@
+<h1>Mappings</h1>
+<p class="lead">These are all the mappings defined for the server</p>
+
+<form>
+  <div class="form-group">
+    <input type="text" class="form-control" placeholder="Enter something to filter the mappings table" ng-model="filtertext">
+  </div>
+</form>
+		<table class="table table-sm table-striped">
+			<thead class="thead-dark">
+				<tr>
+					<th>Id</th>
+					<th>Status Code</th>
+					<th>Mapping</th>
+					<th>Content Type</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr style="cursor: pointer" ng-repeat-start="mapping in mappings | filter:filtertext"
+					ng-init="mapping.showdetails=false"
+					ng-click="mapping.showdetails=!mapping.showdetails">
+					<td>{{mapping.id}}</td>
+					<td>{{mapping.statusCode}}</td>
+					<td>{{mapping.mapping}}</td>
+					<td>{{mapping.contentType}}</td>
+					<td class="text-right">
+						<a class="btn btn-dark btn-sm" href="#!editmapping/{{mapping.id}}"><i class="fa fa-pencil fa-lg"></i></a>
+						<span class="btn btn-danger btn-sm" ng-click="remove(mapping.id)"><i class="fa fa-trash-o fa-lg"></i></span>	
+					</td>
+				</tr>
+				<tr ng-repeat-end ng-show="mapping.showdetails">
+					<td colspan="5">
+						<div style="white-space: pre-wrap; max-height: 50vh; overflow:auto"><b>Response Body:</b><br />{{mapping.responseBody}}</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>

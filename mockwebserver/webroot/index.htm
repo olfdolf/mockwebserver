@@ -1,4 +1,46 @@
-olfdolf
-<body style="background-image: url('/files/file.jpg')">
-s
+<!doctype html>
+<html lang="en">
+<head>
+<title>Logs</title>
+
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<script	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.4/angular-route.js"></script>
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+	integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb"
+	crossorigin="anonymous"></link>
+	
+<script src="https://use.fontawesome.com/54d319d7c4.js"></script>
+	
+</head>
+<body>
+
+<div ng-app="app" ng-controller="AppController">
+<ul class="nav justify-content-center">
+  <li class="nav-item">
+    <a class="nav-link active" href="#">Logs</a>
+  </li>
+  <li class="nav-item">
+    <a class="nav-link" href="#!mappings">Mappings</a>
+  </li>
+    <li class="nav-item">
+    <a class="nav-link" href="#!addmapping">New mapping</a>
+  </li>
+</ul>
+<div class="container">
+<div ng-view></div>
+</div>
+</div>
+  
+
+<script src="/js/app.js"></script>
+<script src="/js/appcontroller.js"></script>
+<script src="/js/logscontroller.js"></script>
+<script src="/js/mappingscontroller.js"></script>
+<script src="/js/editmappingcontroller.js"></script>
+<script src="/js/addmappingcontroller.js"></script>
 </body>
+</html>

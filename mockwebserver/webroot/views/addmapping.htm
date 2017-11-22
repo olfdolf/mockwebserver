@@ -1,0 +1,25 @@
+<h1>New</h1>
+<p class="lead">Create a new mapping configuration</p>
+
+<form>
+  <div class="form-group">
+    <label for="statuscode">Status Code:</label>
+    <input type="text" class="form-control" id="statuscode" ng-model="mapping.statusCode">
+  </div>
+   <div class="form-group">
+    <label for="mapping">Mapping:</label>
+    <input type="text" class="form-control" id="mapping" ng-model="mapping.mapping">
+  </div>
+     <div class="form-group">
+    <label for="contenttype">Content type:</label>
+    <input type="text" class="form-control" id="contenttype" ng-model="mapping.contentType">
+  </div>
+
+  <div class="form-group">
+    <label for="responsebody">Response Body:</label>
+    <textarea class="form-control" id="responsebody" rows="3" ng-model="mapping.responseBody"></textarea>
+  </div>
+  <div class="form-group">
+  	<a class="btn btn-dark" href="" ng-click="save()"><i class="fa fa-floppy-o fa-lg"></i> Save mapping</a>
+  </div>
+</form>

@@ -55,6 +55,8 @@ public class StaticFilesHandler implements Handler {
 		Map<String,String> contentTypes = new HashMap<>();
 		contentTypes.put("htm", "text/html;charset=utf-8");	
 		contentTypes.put("html", "text/html;charset=utf-8");
+		contentTypes.put("js", "application/javascript;charset=utf-8");
+		contentTypes.put("css", "text/css;charset=utf-8");
 		contentTypes.put("jpg", "image/jpeg");
 		contentTypes.put("jpeg", "image/jpeg");
 		

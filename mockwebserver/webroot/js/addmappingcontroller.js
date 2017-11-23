@@ -8,7 +8,7 @@ angular.module('app').controller('AddMappingController',
 				ob.statusCode = $scope.mapping.statusCode;
 				ob.id = 0;
 				ob.responseBody = window.btoa($scope.mapping.responseBody);
-				ob.mapping = $scope.mapping.mapping;
+				ob.url = $scope.mapping.url;
 				ob.contentType = $scope.mapping.contentType;
 
 				$http.put("/add/mapping", ob).then(function(response) {

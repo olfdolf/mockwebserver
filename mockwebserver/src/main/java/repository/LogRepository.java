@@ -17,7 +17,7 @@ public class LogRepository {
 	}
 
 	public Collection<LogEntry> getAll() throws SQLException {
-		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM restmock ORDER BY id DESC;").executeQuery();
+		ResultSet resultSet = dbConnection.prepareStatement("SELECT * FROM logs ORDER BY id DESC;").executeQuery();
 		Collection<LogEntry> allLogs = new ArrayList<>();
 		
 		while (resultSet.next()) {
@@ -45,7 +45,7 @@ public class LogRepository {
 	public boolean addLogEntry(LogEntry entry) {
 		try {
 			PreparedStatement insertStatement = dbConnection.prepareStatement(
-					"INSERT into restmock (status_code, request_headers, request_body, response_headers, "
+					"INSERT into logs (status_code, request_headers, request_body, response_headers, "
 							+ "response_body, request_date, request_method, remote_address, request_path, protocol, mapping) "
 							+ "values (?,?,?,?,?,?,?,?,?,?,?)");
 			insertStatement.setInt(1, entry.getStatusCode());
@@ -62,7 +62,6 @@ public class LogRepository {
 
 			return (insertStatement.executeUpdate() > 0);
 		} catch (SQLException e) {
-			e.printStackTrace();
 			return false;
 		}
 	}

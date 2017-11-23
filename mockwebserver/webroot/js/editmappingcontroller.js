@@ -14,7 +14,7 @@ angular.module('app').controller(
 				ob.statusCode = $scope.mapping.statusCode;
 				ob.id = $scope.mapping.id;
 				ob.responseBody = window.btoa($scope.mapping.responseBody);
-				ob.mapping = $scope.mapping.mapping;
+				ob.url = $scope.mapping.url;
 				ob.contentType = $scope.mapping.contentType;
 
 				$http.put("/edit/mapping", ob).then(function(response) {

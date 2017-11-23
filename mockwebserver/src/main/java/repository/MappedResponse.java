@@ -1,17 +1,17 @@
 package repository;
 
-public class UserDefinedResponse {
+public class MappedResponse {
 	private int id;
 	private int statusCode;
 	private byte[] responseBody;
-	private String mapping;
+	private String url;
 	private String contentType;
 
-	public UserDefinedResponse(int id, int statusCode, byte[] responseBody, String mapping, String contentType) {
+	public MappedResponse(int id, int statusCode, byte[] responseBody, String url, String contentType) {
 		this.id = id;
 		this.statusCode = statusCode;
 		this.responseBody = responseBody;
-		this.mapping = mapping;
+		this.url = url;
 		this.contentType = contentType;
 	}
 
@@ -27,45 +27,38 @@ public class UserDefinedResponse {
 		return responseBody;
 	}
 
-	public String getMapping() {
-		return mapping;
+	public String getUrl() {
+		return url;
 	}
 
 	public String getContentType() {
 		return contentType;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
-	private UserDefinedResponse() {
-		
+	private MappedResponse() {
 	}
 	
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setId(int id) {
 		this.id = id;
 	}
 	
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 	
-	// Används för JSON mappning
 	@SuppressWarnings("unused")	
 	private void setResponseBody(byte[] responseBody) {
 		this.responseBody = responseBody;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
-	private void setMapping(String mapping) {
-		this.mapping = mapping;
+	private void setUrl(String url) {
+		this.url = url;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setContentType(String contentType) {
 		this.contentType = contentType;

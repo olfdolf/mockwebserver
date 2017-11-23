@@ -4,8 +4,6 @@ import java.util.StringJoiner;
 
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
-
-//TODO:  CLEANUP
 public class LogEntry {
 	private int id;
 	private String requestMethod;
@@ -35,7 +33,6 @@ public class LogEntry {
 		this.mapping = mapping;
 	}
 	
-	//TODO: ... fixa
 	public LogEntry(int id, long timeStamp, int responseCode, String requestMethod, String protocol, String requestPath, String remoteAddress, String requestHeaders, String responseHeaders, byte[] requestBody, byte[] responseBody, String mapping) {
 		this.responseHeaders = responseHeaders;
 		this.requestHeaders = requestHeaders;
@@ -52,7 +49,6 @@ public class LogEntry {
 	}
 
 	private String formatHeaders(Headers headers) {
-		// Assemble request headers string
 		final StringJoiner headerJoiner = new StringJoiner("\n");
 		headers.forEach((name, values) -> {
 			StringJoiner valueJoiner = new StringJoiner(";");
@@ -103,7 +99,6 @@ public class LogEntry {
 		return responseBody;
 	}
 
-	//TODO: Timestamp, inte TimeStamp
 	public long getTimeStamp() {
 		return timeStamp;
 	}
@@ -112,79 +107,66 @@ public class LogEntry {
 		return mapping;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private LogEntry() {
 
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setId(int id) {
 		this.id = id;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setRequestMethod(String requestMethod) {
 		this.requestMethod = requestMethod;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setStatusCode(int statusCode) {
 		this.statusCode = statusCode;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setRequestHeaders(String requestHeaders) {
 		this.requestHeaders = requestHeaders;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setRequestBody(byte[] requestBody) {
 		this.requestBody = requestBody;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setResponseHeaders(String responseHeaders) {
 		this.responseHeaders = responseHeaders;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setResponseBody(byte[] responseBody) {
 		this.responseBody = responseBody;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setTimeStamp(long timeStamp) {
 		this.timeStamp = timeStamp;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setRemoteAddress(String remoteAddress) {
 		this.remoteAddress = remoteAddress;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setRequestPath(String requestPath) {
 		this.requestPath = requestPath;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
 
-	// Används för JSON mappning
 	@SuppressWarnings("unused")
 	private void setMapping(String mapping) {
 		this.mapping = mapping;

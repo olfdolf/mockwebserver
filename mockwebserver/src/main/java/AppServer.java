@@ -10,6 +10,7 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 import handler.Handler;
+import handler.Routes;
 
 
 public class AppServer {
@@ -17,12 +18,12 @@ public class AppServer {
 	private HttpServer httpServer;
 	private String host;
 	private int port;
-	private List<Handler> handlers;
+	private List<Routes> routesList;
 	
 	public AppServer(String host, int port) {
 		this.host = host;
 		this.port = port;
-		this.handlers = new ArrayList<>();
+		this.routesList = new ArrayList<>();
 	}
 	
 	public void start() throws IOException {
@@ -33,15 +34,13 @@ public class AppServer {
 	}
 	
 	public void addHandler(Handler handler) throws Exception {
-		handlers.add(handler);
+		routesList.add(handler.configureRoutes(new Routes(handler)));
 	}
 	
 	public void stop() {
-		// number of seconds to finish requests
 		httpServer.stop(10);
 	}
 
-	//TODO: Cleanup and possibly new logic between server and handlers
 	private class AppServerHttpHandler implements HttpHandler {
 		
 		@Override
@@ -49,15 +48,12 @@ public class AppServer {
 			boolean requestHandled = false;
 			OutputStream responseStream = exchange.getResponseBody();
 			
-			System.out.println("Ok inside handler");
-			
-			for (Handler handler : handlers) {
+			for (Routes routes : routesList) {
 				try {
-					String mapping = handler.configureMappings().getMappingFor(exchange.getRequestURI().toString());
-					System.out.println(mapping);
-					if (mapping != null) {
-						handler.handle(exchange, mapping);
+					Routes.Route route = routes.getRouteFor(exchange.getRequestURI().toString());
+					if (route != null && routes.getHandler().handle(exchange, route)) {
 						requestHandled = true;
+						System.out.println("Route mapped: " + exchange.getRequestURI() + " -> " + route.getUrl() + " (" + routes.getHandler().getClass() +")");
 					}
 				} catch (Exception e) {
 					ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -79,7 +75,6 @@ public class AppServer {
 					break;
 			}
 
-			//no handler found, no exception occured
 			if (requestHandled == false) {
 				byte[] response = "<h1>No handler found</h1>There was no handler to process the request.".getBytes("UTF-8");
 				

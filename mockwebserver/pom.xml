@@ -6,6 +6,8 @@
   <name>mockwebserver</name>
   <properties>
    <jackson.version>2.9.0</jackson.version>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
   <dependencies>
   <dependency>

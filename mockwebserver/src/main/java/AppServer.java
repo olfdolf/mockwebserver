@@ -97,7 +97,7 @@ public class AppServer {
 			for (int i = 0; !requestHandled && i < routeCollectionList.size(); i++){
 				try {
 					// check if the URI matches the current route in the routeList
-					Route route = routeCollectionList.get(i).getRouteFor(exchange.getRequestURI().toString());
+					Route route = routeCollectionList.get(i).hasMatch(exchange.getRequestURI().toString());
 
 					// if so, pass the exchange data and the route info to the handler and see if it can handle it
 					if (route != null && routeCollectionList.get(i).getHandler().handle(exchange, route)) {

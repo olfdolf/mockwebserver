@@ -2,50 +2,70 @@ package handler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A collection of {@link Route} objects for a specific {@link Handler}.
+ */
 public class RouteCollection {
-	private List<Route> routes = new ArrayList<>();
-	private List<Route> ignoredRoutes = new ArrayList<>();
+	private List<Route> routeList = new ArrayList<>();
 	private Handler handler;
-	
+
+	/**
+	 * Creates a collection for a specific Handler.
+	 * @param handler The Handler for this collection
+	 */
 	public RouteCollection(Handler handler) {
 		this.handler = handler;
 	}
-	
+
+	/**
+	 * The Handler for the RouteCollection
+	 * @return The Handler for the RouteCollection
+	 */
 	public Handler getHandler() {
 		return this.handler;
 	}
-	
+
+	/**
+	 * Shortcut for creating a method that matches any URI and add it to this RouteCollection.
+	 * @return
+	 */
 	public Route mapAll() {
-		return addNewRouteToList(".*", routes);
+		return addNewRouteToList(".*");
 	}
-	
-	public Route mapRoute(String url) {
-		return addNewRouteToList(url, routes);
+
+	/**
+	 * Creates a Route with a specific URI pattern and adds it to the collection.
+	 * @param uriPattern The pattern to use for matching
+	 * @return The Route that was created and added to the collection
+	 */
+	public Route mapRoute(String uriPattern) {
+		return addNewRouteToList(uriPattern);
 	}
-	
-	public Route ignoreRoute(String url) {
-		return addNewRouteToList(url, ignoredRoutes);
-	}
-	
-	public Route getRouteFor(String url) {
-		for (Route route : ignoredRoutes) {
-			if (route.resolve(url)) {
-				return null;
-			}
-		}
-		
-		for (Route route : routes) {
-			if (route.resolve(url)) {
+
+	/**
+	 * Checks if the collection has any Route that matches against a URI.
+	 * @param uri The URI to match against
+	 * @return The Route matched, or null if none matched
+	 */
+	public Route hasMatch(String uri) {
+
+		for (Route route : routeList) {
+			if (route.matches(uri)) {
 				return route;
 			}
 		}
 		
 		return null;
 	}
-	
-	private Route addNewRouteToList(String url, List<Route> list) {
-		Route route = new Route(url);
-		list.add(route);
+
+	/**
+	 * Private method for creating and adding a Route to the collectionn
+	 * @param uriPattern The pattern to use when creating the Route
+	 * @return The Route created
+	 */
+	private Route addNewRouteToList(String uriPattern) {
+		Route route = new Route(uriPattern);
+		routeList.add(route);
 		return route;
 	}
 

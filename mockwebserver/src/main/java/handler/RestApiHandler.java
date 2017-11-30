@@ -7,7 +7,7 @@ import com.sun.net.httpserver.HttpExchange;
 import repository.LogRepository;
 import repository.MappedResponse;
 import repository.MappedResponseRepository;
-
+//TODO: javadoc
 public class RestApiHandler implements Handler {
 	private MappedResponseRepository mappedResponseRepository;
 	private LogRepository logRepository;

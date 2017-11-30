@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import com.sun.net.httpserver.HttpExchange;
-
+//TODO: javadoc
 /**
  * This handler generates responses using the filesystem. The handler will configure itself to get requests
  * for all URI's. If a URI matches a relative filepath then that file is read and generated as response.

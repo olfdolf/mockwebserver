@@ -12,6 +12,7 @@ import repository.LogRepository;
 import repository.MappedResponse;
 import repository.MappedResponseRepository;
 
+//TODO: javadoc
 public class MappedResponseHandler implements Handler {
 	private LogRepository logRepository;
 	private MappedResponseRepository mappedResponseRepository;

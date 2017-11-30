@@ -27,7 +27,7 @@ public class RouteCollection {
 
 	/**
 	 * Shortcut for creating a method that matches any URI and add it to this RouteCollection.
-	 * @return
+	 * @return The Route created
 	 */
 	public Route mapAll() {
 		return addNewRouteToList(".*");

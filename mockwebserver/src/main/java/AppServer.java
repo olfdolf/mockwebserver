@@ -9,7 +9,8 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import handler.Handler;
-import handler.Routes;
+import handler.Route;
+import handler.RouteCollection;
 
 /**
  * A HTTP server implementation that handles requests using implementations of the {@link handler.Handler} interface.<br />
@@ -32,24 +33,23 @@ public class AppServer {
 	private HttpServer httpServer;
 	private String host;
 	private int port;
-	private List<Routes> routesList;
+	private List<RouteCollection> routeCollectionList;
 
 	/**
 	 * Creates a HTTP server using the host/port specified. Note that the server is not started until
 	 * {@link #start()} is called.
-	 * @param host
-	 * @param port
+	 * @param host Hostname
+	 * @param port Port
 	 */
 	public AppServer(String host, int port) {
 		this.host = host;
 		this.port = port;
-		this.routesList = new ArrayList<>();
+		this.routeCollectionList = new ArrayList<>();
 	}
 
 	/**
 	 * Creates a HTTP server that listens on the host/port specified using
 	 * {@link #AppServer(String, int)} constructor.
-	 * @throws IOException
 	 */
 	public void start() throws IOException {
 		InetSocketAddress address = new InetSocketAddress(host, port);
@@ -63,10 +63,9 @@ public class AppServer {
 	 * the handler pipeline.s
 	 *
 	 * @param handler A implementation of the handler interface used to process a specific request.
-	 * @throws Exception
 	 */
 	public void addHandler(Handler handler) throws Exception {
-		routesList.add(handler.configureRoutes(new Routes(handler)));
+		routeCollectionList.add(handler.configureRoutes(new RouteCollection(handler)));
 	}
 
 	/**
@@ -87,8 +86,7 @@ public class AppServer {
 		 * Every handler registered a route when added using the {@link #addHandler(Handler)}.
 		 * This is where the incomming request URI is matched against those routes to find a handler that wants
 		 * to process the request.
-		 * @param exchange
-		 * @throws IOException
+		 * @param exchange The data of the http exchange
 		 */
 		@Override
 		public void handle(HttpExchange exchange) throws IOException {
@@ -96,13 +94,13 @@ public class AppServer {
 			OutputStream responseStream = exchange.getResponseBody();
 
 			// check each route in the routelist until request is processed or no handle is found
-			for (int i = 0; !requestHandled && i < routesList.size(); i++){
+			for (int i = 0; !requestHandled && i < routeCollectionList.size(); i++){
 				try {
 					// check if the URI matches the current route in the routeList
-					Routes.Route route = routesList.get(i).getRouteFor(exchange.getRequestURI().toString());
+					Route route = routeCollectionList.get(i).getRouteFor(exchange.getRequestURI().toString());
 
 					// if so, pass the exchange data and the route info to the handler and see if it can handle it
-					if (route != null && routesList.get(i).getHandler().handle(exchange, route)) {
+					if (route != null && routeCollectionList.get(i).getHandler().handle(exchange, route)) {
 						requestHandled = true;
 					}
 				} catch (Exception e) {

@@ -31,23 +31,22 @@ public class StaticFilesHandler implements Handler {
 	 * Pass the folder to use as the "webroot" folder. The URI's will be matched against the relative
 	 * filepaths in this folder.
 	 * @param staticFilesRootFolder The root folder of all files served
-	 * @throws InvalidPathException
 	 */
 	public StaticFilesHandler(String staticFilesRootFolder) throws InvalidPathException {
 		this.staticFilesRootFolder = Paths.get(staticFilesRootFolder);
 	}
 
 	@Override
-	public Routes configureRoutes(Routes routes) {
-		routes.mapAll();
-		return routes;
+	public RouteCollection configureRoutes(RouteCollection routeCollection) {
+		routeCollection.mapAll();
+		return routeCollection;
 	}
 
 	@Override
-	public boolean handle(HttpExchange exchange, Routes.Route route) throws IOException {
+	public boolean handle(HttpExchange exchange, Route route) throws IOException {
 		Path fileToSend = Paths.get(staticFilesRootFolder.toString(), exchange.getRequestURI().toString());
 		
-		if (Files.exists(fileToSend) == false) 
+		if (!Files.exists(fileToSend))
 			return false;
 		
 		exchange.getResponseHeaders().add("content-type", getContentTypeForFilename(fileToSend.toString()));
@@ -57,7 +56,8 @@ public class StaticFilesHandler implements Handler {
 		OutputStream responseStream = exchange.getResponseBody();
 		
 		byte[] buffer = new byte[1024];
-		int bytesRead = -1;
+		int bytesRead;
+
 		while ((bytesRead = bufferedFileInputStream.read(buffer))!= -1) {
 			responseStream.write(buffer, 0, bytesRead);
 		}

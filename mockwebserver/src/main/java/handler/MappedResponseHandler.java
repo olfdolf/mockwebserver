@@ -22,13 +22,13 @@ public class MappedResponseHandler implements Handler {
 	}
 
 	@Override
-	public Routes configureRoutes(Routes routes) {
-		routes.mapAll();
-		return routes;
+	public RouteCollection configureRoutes(RouteCollection routeCollection) {
+		routeCollection.mapAll();
+		return routeCollection;
 	}
 	
 	@Override
-	public boolean handle(HttpExchange exchange, Routes.Route route) throws SQLException, IOException {
+	public boolean handle(HttpExchange exchange, Route route) throws SQLException, IOException {
 		MappedResponse mappedResponse = null;
 		String requestedUri = exchange.getRequestURI().toString();
 		
@@ -48,7 +48,8 @@ public class MappedResponseHandler implements Handler {
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		InputStream requestBodyStream = exchange.getRequestBody();
 		byte[] buffer = new byte[1024];
-		int bytesRead = -1;
+		int bytesRead;
+
 		while ((bytesRead = requestBodyStream.read(buffer)) != -1)
 			byteArrayOutputStream.write(buffer, 0, bytesRead);
 

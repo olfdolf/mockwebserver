@@ -19,20 +19,20 @@ public class RestApiHandler implements Handler {
 	}
 
 	@Override
-	public Routes configureRoutes(Routes routes) {
-		routes.mapRoute("/list/mappings").addData("action","listmappings");
-		routes.mapRoute("/list/logs").addData("action","listlogs");
-		routes.mapRoute("/remove/mapping/\\d+").addData("action","removemapping");
-		routes.mapRoute("/add/mapping").addData("action","addmapping");
-		routes.mapRoute("/get/mapping/\\d+").addData("action","getmapping");
-		routes.mapRoute("/edit/mapping").addData("action","editmapping");
-		return routes;
+	public RouteCollection configureRoutes(RouteCollection routeCollection) {
+		routeCollection.mapRoute("/list/mappings").addData("action","listmappings");
+		routeCollection.mapRoute("/list/logs").addData("action","listlogs");
+		routeCollection.mapRoute("/remove/mapping/\\d+").addData("action","removemapping");
+		routeCollection.mapRoute("/add/mapping").addData("action","addmapping");
+		routeCollection.mapRoute("/get/mapping/\\d+").addData("action","getmapping");
+		routeCollection.mapRoute("/edit/mapping").addData("action","editmapping");
+		return routeCollection;
 	}
 	
 	@Override
-	public boolean handle(HttpExchange exchange, Routes.Route route) throws IOException, SQLException  {
+	public boolean handle(HttpExchange exchange, Route route) throws IOException, SQLException  {
 		String action = (String)route.getData("action");
-		MappedResponse mappedResponse = null;
+		MappedResponse mappedResponse;
 		
 		switch (action) {
 			case "listmappings":

@@ -12,11 +12,21 @@ import repository.LogRepository;
 import repository.MappedResponse;
 import repository.MappedResponseRepository;
 
-//TODO: javadoc
+/**
+ * Handler that generates response with the help of MappedResponse repository.
+ * A MappedResponse is a user defined response for a specific URI pattern, this Handler will check all such
+ * MappedResponses and generate a response if a match for the URI is found.
+ * The Handler also logs all successful matchings into the logrepository.
+ */
 public class MappedResponseHandler implements Handler {
 	private LogRepository logRepository;
 	private MappedResponseRepository mappedResponseRepository;
 
+	/**
+	 * Creates a Handler with specified repositories
+	 * @param logRepository Repository for logs
+	 * @param mappedResponseRepository Repository for MappedResponses
+	 */
 	public MappedResponseHandler(LogRepository logRepository, MappedResponseRepository mappedResponseRepository) {
 		this.mappedResponseRepository = mappedResponseRepository;
 		this.logRepository = logRepository;

@@ -9,12 +9,13 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import com.sun.net.httpserver.HttpExchange;
-//TODO: javadoc
+
 /**
- * This handler generates responses using the filesystem. The handler will configure itself to get requests
- * for all URI's. If a URI matches a relative filepath then that file is read and generated as response.
- * If no filepath matches the URI this handler does nothing.<br/><br/>
- * <b>Example</b>
+ * This Handler serves static files from a specified root path.
+ * The handler tries to match incomming URI against a filename in the rootpath. If a file exists that matches the
+ * URI then that file is used to generate a response to the client.
+ * If no file is found the Handler does nothing<br />
+ * <b>Example usage:</b>
  * <ul>
  *     <li>1. Request with URI <i>Index.html</i> comes in</li>
  *     <li>2. Request is passed to this handler</li>
@@ -28,9 +29,9 @@ public class StaticFilesHandler implements Handler {
 	private Path staticFilesRootFolder;
 
 	/**
-	 * Pass the folder to use as the "webroot" folder. The URI's will be matched against the relative
-	 * filepaths in this folder.
-	 * @param staticFilesRootFolder The root folder of all files served
+	 * Creates a StaticFilesHandler with a specific path as the root, the Handler will match URI against the
+	 * files in this path.
+	 * @param staticFilesRootFolder The path to use as root
 	 */
 	public StaticFilesHandler(String staticFilesRootFolder) throws InvalidPathException {
 		this.staticFilesRootFolder = Paths.get(staticFilesRootFolder);
@@ -44,6 +45,7 @@ public class StaticFilesHandler implements Handler {
 
 	@Override
 	public boolean handle(HttpExchange exchange, Route route) throws IOException {
+
 		Path fileToSend = Paths.get(staticFilesRootFolder.toString(), exchange.getRequestURI().toString());
 		
 		if (!Files.exists(fileToSend))
@@ -68,9 +70,13 @@ public class StaticFilesHandler implements Handler {
 		
 		return true;
 	}
-	
+
+	/**
+	 * Private helper method to get a content-type header based on the fileextension.
+	 * @param file The filename to get the extension for
+	 * @return The content-type header
+	 */
 	private String getContentTypeForFilename(String file) {
-		// this just generates the correct "content-type" header based on the file extension.
 		file = file.toLowerCase().trim();
 		Map<String,String> contentTypes = new HashMap<>();
 		contentTypes.put("htm", "text/html;charset=utf-8");	
